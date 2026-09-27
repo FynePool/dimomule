@@ -1,0 +1,51 @@
+DIMOMULE 1.0 — PACCHETTO COMPLETO
+=================================
+Build: r001
+
+Dimomule ripristina in Google Chrome per Windows l'apertura dei link ed2k:// in eMule e supporta anche i vecchi link multipli javascript:addall...().
+
+PRIMA INSTALLAZIONE
+1. Scarica dalla sezione Releases di GitHub il file Dimomule_1.0.zip. NON usare il pulsante "Source code".
+2. Estrai completamente lo ZIP in una cartella normale.
+3. Esegui INSTALLA_DIMOMULE.cmd.
+4. L'installer copia i componenti nella posizione stabile %LOCALAPPDATA%\Dimomule e registra il Native Host. Non apre finestre aggiuntive.
+5. Apri chrome://extensions.
+6. Attiva "Modalita sviluppatore".
+7. Premi "Carica estensione non pacchettizzata".
+8. Seleziona %LOCALAPPDATA%\Dimomule\Chrome. Il percorso viene copiato negli appunti dall'installer.
+9. Fissa l'icona Dimomule nella barra di Chrome, se desiderato.
+
+IMPORTANTE
+Chrome usa direttamente la cartella scelta per un'estensione non pacchettizzata. Per questo devi caricare la copia STABILE in LocalAppData e non la cartella estratta dallo ZIP. Dopo aver completato il caricamento puoi cancellare lo ZIP e la cartella estratta.
+
+AGGIORNAMENTI FUTURI
+Dimomule rimane sempre "Dimomule 1.0" e mantiene lo stesso ID Chrome. Le revisioni interne vengono indicate come r001, r002, r003 ecc.
+Per aggiornare: scarica il nuovo Dimomule_1.0.zip dalla release piu recente, estrailo ed esegui INSTALLA_DIMOMULE.cmd. Chrome continua a puntare alla stessa cartella stabile. NON devi premere di nuovo "Carica estensione non pacchettizzata". Se Chrome non recepisce subito i nuovi file, apri chrome://extensions e premi "Ricarica" sulla scheda Dimomule.
+
+SICUREZZA DELL'AGGIORNAMENTO
+L'installer prepara la nuova build in staging, esegue un backup dei soli file Dimomule conosciuti e ripristina la situazione precedente se l'aggiornamento non viene completato. Non elimina file estranei eventualmente presenti nelle cartelle Dimomule.
+
+COSA FA
+- apre i link ed2k:// usando il programma gia associato da Windows;
+- supporta i vecchi link multipli javascript:addall...();
+- non contiene un percorso fisso di eMule;
+- non raccoglie telemetria;
+- non invia cronologia di navigazione a server esterni.
+
+PAGINA INFO
+Clicca l'icona Dimomule nella barra di Chrome. Si apre il popup informativo. Da li puoi aprire la guida completa interna.
+
+VERIFICA
+Esegui VERIFICA_DIMOMULE.cmd per controllare associazione ed2k://, Native Host, registro, identita dell'estensione e popup.
+
+DISINSTALLAZIONE
+1. Rimuovi Dimomule da chrome://extensions.
+2. Esegui DISINSTALLA_DIMOMULE.cmd.
+La disinstallazione rimuove solo la registrazione Native Messaging e i file appartenenti a Dimomule. Non modifica eMule, l'associazione ed2k://, file di Windows o il file hosts.
+
+DATI TECNICI BLOCCATI
+Versione visibile: Dimomule 1.0
+Manifest version: 1.0.0
+ID estensione: mihhpbnljinclnfipcadonlnnnnngkbk
+Native Host: it.dimomule.ed2k_opener
+Cartella stabile: %LOCALAPPDATA%\Dimomule
