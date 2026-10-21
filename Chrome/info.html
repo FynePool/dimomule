@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Dimomule 1.0 — Informazioni</title>
+  <title>Dimomule Personal — Informazioni</title>
   <link rel="stylesheet" href="info.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
     <header class="hero">
       <img src="icons/icon128.png" alt="Dimomule" class="logo">
       <div>
-        <h1>Dimomule 1.0</h1>
+        <h1>Dimomule Personal</h1>
         <p class="lead">Collega Chrome a eMule per aprire nuovamente i link eD2K, compresi i vecchi link multipli “Aggiungi tutti”.</p>
       </div>
     </header>
@@ -19,7 +19,8 @@
     <section>
       <h2>Cosa fa</h2>
       <p>Dimomule intercetta i link <code>ed2k://</code> cliccati nelle pagine web e li consegna al programma che Windows ha associato al protocollo eD2K, normalmente eMule o una sua mod.</p>
-      <p>Supporta anche i vecchi collegamenti del tipo <code>javascript:addall123456()</code>: quando la pagina contiene un elenco multiplo di link eD2K, Dimomule li recupera e li invia a eMule uno alla volta.</p>
+      <p>Supporta anche i vecchi collegamenti del tipo <code>javascript:addall123456()</code>: quando la pagina contiene un elenco multiplo di link eD2K, Dimomule li recupera, chiede conferma indicando quanti sono e li invia a eMule uno alla volta (al massimo 500 per volta).</p>
+      <p>Questa versione personale è attiva soltanto su <code>ddunlimited.net</code>, <code>emulelinks.it</code> e <code>ildragonero2.info</code> e sui loro sottodomini.</p>
     </section>
 
     <section>
@@ -36,7 +37,7 @@
         <ul>
           <li>link singoli <code>ed2k://</code>;</li>
           <li>link multipli legacy <code>javascript:addall...()</code>;</li>
-          <li>pagine HTTP e HTTPS.</li>
+          <li>pagine HTTP e HTTPS dei siti abilitati.</li>
         </ul>
       </article>
       <article>
@@ -55,7 +56,7 @@
       <ul>
         <li>non invia dati a server esterni;</li>
         <li>non raccoglie telemetria o cronologia di navigazione;</li>
-        <li>inoltra al componente Windows esclusivamente URL che iniziano con <code>ed2k://</code>;</li>
+        <li>inoltra al componente Windows esclusivamente link <code>ed2k://</code> nel formato reale (file, server, serverlist), senza caratteri di controllo né virgolette;</li>
         <li>non modifica file di Windows e non usa il file <code>hosts</code>;</li>
         <li>non modifica l’associazione eD2K, le impostazioni di eMule o i suoi file;</li>
         <li>la disinstallazione rimuove esclusivamente componenti e registrazioni appartenenti a Dimomule.</li>
@@ -64,8 +65,8 @@
 
     <section>
       <h2>Installazione stabile</h2>
-      <p>I componenti installati vengono conservati sotto <code>%LOCALAPPDATA%\Dimomule</code>. Dopo l’installazione la cartella ZIP scaricata può essere cancellata: Chrome deve essere caricato dalla cartella stabile <code>%LOCALAPPDATA%\Dimomule\Chrome</code>.</p>
-      <p>Gli aggiornamenti vengono distribuiti come pacchetti completi dalla pagina GitHub ufficiale del progetto. L’installer aggiorna i file nella stessa posizione stabile; l’estensione resta la stessa e in Chrome, se necessario, basta premere <strong>Ricarica</strong>. Non occorre usare di nuovo “Carica estensione non pacchettizzata”.</p>
+      <p>I componenti installati vengono conservati sotto <code>%LOCALAPPDATA%\DimomulePersonal</code>. Dopo l’installazione la cartella ZIP scaricata può essere cancellata: Chrome deve essere caricato dalla cartella stabile <code>%LOCALAPPDATA%\DimomulePersonal\Chrome</code>.</p>
+      <p>Gli aggiornamenti si ottengono scaricando di nuovo il repository personale. L’installer aggiorna i file nella stessa posizione stabile; l’estensione resta la stessa e in Chrome, se necessario, basta premere <strong>Ricarica</strong>. Non occorre usare di nuovo “Carica estensione non pacchettizzata”.</p>
     </section>
 
     <section class="tech">
@@ -73,9 +74,9 @@
       <dl>
         <dt>Versione</dt><dd>1.0</dd>
         <dt>Manifest</dt><dd>Chrome Manifest V3</dd>
-        <dt>ID estensione</dt><dd><code>mihhpbnljinclnfipcadonlnnnnngkbk</code></dd>
-        <dt>Native Host</dt><dd><code>it.dimomule.ed2k_opener</code></dd>
-        <dt>Cartella stabile</dt><dd><code>%LOCALAPPDATA%\Dimomule</code></dd>
+        <dt>ID estensione</dt><dd><code>jipokengmllmldjhfjceeemnnnjeicli</code></dd>
+        <dt>Native Host</dt><dd><code>it.dimomule_personal.ed2k_opener</code></dd>
+        <dt>Cartella stabile</dt><dd><code>%LOCALAPPDATA%\DimomulePersonal</code></dd>
       </dl>
     </section>
 
@@ -84,23 +85,23 @@
       <h2>Guida rapida</h2>
       <ol>
         <li>Installa Dimomule con <code>INSTALLA_DIMOMULE.cmd</code>.</li>
-        <li>Carica in Chrome la cartella stabile <code>%LOCALAPPDATA%\Dimomule\Chrome</code> come estensione non pacchettizzata.</li>
+        <li>Carica in Chrome la cartella stabile <code>%LOCALAPPDATA%\DimomulePersonal\Chrome</code> come estensione non pacchettizzata.</li>
         <li>Clicca normalmente un link <code>ed2k://</code>: eMule deve riceverlo direttamente.</li>
-        <li>Per i vecchi pulsanti “Aggiungi tutti”, Dimomule recupera l’elenco e invia i collegamenti a eMule uno alla volta.</li>
+        <li>Per i vecchi pulsanti “Aggiungi tutti”, Dimomule recupera l’elenco, chiede conferma e invia i collegamenti a eMule uno alla volta.</li>
       </ol>
     </section>
 
     <section>
       <h2>Aggiornamenti</h2>
-      <p>Scarica dalla release GitHub più recente il pacchetto completo <code>Dimomule_1.0.zip</code>, estrailo ed esegui <code>INSTALLA_DIMOMULE.cmd</code>. La cartella stabile e l’ID restano invariati. Non devi caricare nuovamente l’estensione: apri <code>chrome://extensions</code> e premi <strong>Ricarica</strong> soltanto se Chrome non ha ancora recepito i file aggiornati.</p>
+      <p>Scarica di nuovo il repository (o esegui <code>git pull</code>) ed esegui <code>INSTALLA_DIMOMULE.cmd</code>. La cartella stabile e l’ID restano invariati. Non devi caricare nuovamente l’estensione: apri <code>chrome://extensions</code> e premi <strong>Ricarica</strong> soltanto se Chrome non ha ancora recepito i file aggiornati.</p>
     </section>
 
     <section>
       <h2>Se un link non si apre</h2>
-      <p>Verifica che eMule sia associato al protocollo <code>ed2k://</code>, che Dimomule sia attiva in Chrome e che il Native Host sia installato. Nel pacchetto completo è disponibile anche <code>VERIFICA_DIMOMULE.cmd</code>.</p>
+      <p>Verifica che eMule sia associato al protocollo <code>ed2k://</code>, che Dimomule Personal sia attiva in Chrome, che il sito sia tra quelli abilitati e che il Native Host sia installato. Nel pacchetto completo è disponibile anche <code>VERIFICA_DIMOMULE.cmd</code>.</p>
     </section>
 
-    <footer>Dimomule 1.0 · Collegamento locale Chrome → eMule</footer>
+    <footer>Dimomule Personal · Collegamento locale Chrome → eMule</footer>
   </main>
 </body>
 </html>
