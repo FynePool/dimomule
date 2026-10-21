@@ -1,15 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "Dimomule 1.0",
+  "name": "Dimomule Personal",
   "version": "1.0.0",
   "description": "Ripristina in Chrome i link ed2k:// e i vecchi link multipli addall per eMule.",
-  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1s1a+q5K8glrOX69Rpno08DtE1vQA//JxlLl/KugucxbsTKsBGqvTLzkaWKFesUyKPjv9pusVkBJ2qiJCGFbfFeaT3XYTiwzCYCOdQYdVZY9wRrkkZeQfsuMAlI9Y2UfOsn1Lf5iMTWB83NzNnlIveb2fRb/4EpXITYTTe5LH6e23JhEjagzBJkNie3ZwcqDOBr3dNXx5SBsYSJjc+gdmLo7LbvcGviQhG7rGTL1so8XKE6KzLSVW4dIey9VSS3l37RD4fUUXIz4VX1QSM2kBZdjefyycFL16/wVA8c/+HqqrtTEDGpEXMLqCyl4kLd9qnsesY9yONB5jHNe0ssJOwIDAQAB",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw+scjkhdTQxg/IQfBYQ9Y2l0YafYTHPJOaSE2VPC6sxUDyPMwYVjka/WED17i8l10TC8zYcSfLKTgGVmGCPAYaDoitoPOvgFXV6hvn+1oOHMJwxYjz/rqxW9croor9dgj5HxkT6gGOZQbJtRqZ3hnVBIpO4/ECsNpJpWanJH9GkxH/z1EbfjUf8wNJV46C78CwH7KeeMBRGdH5hk6uYTc8oIsxxNjXCMR/4XPe0HpL1Cy3l6B0PuAPWDIBiOHcGuG4ZGCOcerLNs7EikBpQ2g7edQXelrEEEvu655U/50wAPtaiK11ETTi6HUMt6u/JXh6bHP8Ar4CW/cNSwvCGIOwIDAQAB",
   "permissions": [
     "nativeMessaging"
-  ],
-  "host_permissions": [
-    "http://*/*",
-    "https://*/*"
   ],
   "background": {
     "service_worker": "service-worker.js"
@@ -17,8 +13,9 @@
   "content_scripts": [
     {
       "matches": [
-        "http://*/*",
-        "https://*/*"
+        "*://*.ddunlimited.net/*",
+        "*://*.emulelinks.it/*",
+        "*://*.ildragonero2.info/*"
       ],
       "js": [
         "page-bridge.js"
@@ -29,8 +26,9 @@
     },
     {
       "matches": [
-        "http://*/*",
-        "https://*/*"
+        "*://*.ddunlimited.net/*",
+        "*://*.emulelinks.it/*",
+        "*://*.ildragonero2.info/*"
       ],
       "js": [
         "content.js"
@@ -46,7 +44,7 @@
     "128": "icons/icon128.png"
   },
   "action": {
-    "default_title": "Dimomule 1.0",
+    "default_title": "Dimomule Personal",
     "default_icon": {
       "16": "icons/icon16.png",
       "32": "icons/icon32.png",

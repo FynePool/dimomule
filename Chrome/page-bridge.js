@@ -1,5 +1,6 @@
 (() => {
-  const MARKER = "DIMOMULE_1_0_ADDALL";
+  const MARKER = "DIMOMULE_PERSONAL_ADDALL";
+  const MAX_LINKS = 500;
   const isEd2k = value =>
     typeof value === "string" && /^ed2k:\/\//i.test(value.trim());
 
@@ -59,12 +60,13 @@
     if (!data || data.marker !== MARKER || data.type !== "GET_ADDALL") return;
     if (!/^\d+$/.test(String(data.id || ""))) return;
 
-    const urls = [...new Set(collect(String(data.id)))].slice(0, 2000);
+    const all = [...new Set(collect(String(data.id)))];
     window.postMessage({
       marker: MARKER,
       type: "ADDALL_RESULT",
       requestId: data.requestId,
-      urls
+      urls: all.slice(0, MAX_LINKS),
+      total: all.length
     }, "*");
   });
 })();

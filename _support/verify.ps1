@@ -1,7 +1,7 @@
-$HostName = "it.dimomule.ed2k_opener"
-$ExtensionId = "mihhpbnljinclnfipcadonlnnnnngkbk"
-$ExpectedKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1s1a+q5K8glrOX69Rpno08DtE1vQA//JxlLl/KugucxbsTKsBGqvTLzkaWKFesUyKPjv9pusVkBJ2qiJCGFbfFeaT3XYTiwzCYCOdQYdVZY9wRrkkZeQfsuMAlI9Y2UfOsn1Lf5iMTWB83NzNnlIveb2fRb/4EpXITYTTe5LH6e23JhEjagzBJkNie3ZwcqDOBr3dNXx5SBsYSJjc+gdmLo7LbvcGviQhG7rGTL1so8XKE6KzLSVW4dIey9VSS3l37RD4fUUXIz4VX1QSM2kBZdjefyycFL16/wVA8c/+HqqrtTEDGpEXMLqCyl4kLd9qnsesY9yONB5jHNe0ssJOwIDAQAB"
-$Root = Join-Path $env:LOCALAPPDATA "Dimomule"
+$HostName = "it.dimomule_personal.ed2k_opener"
+$ExtensionId = "jipokengmllmldjhfjceeemnnnjeicli"
+$ExpectedKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw+scjkhdTQxg/IQfBYQ9Y2l0YafYTHPJOaSE2VPC6sxUDyPMwYVjka/WED17i8l10TC8zYcSfLKTgGVmGCPAYaDoitoPOvgFXV6hvn+1oOHMJwxYjz/rqxW9croor9dgj5HxkT6gGOZQbJtRqZ3hnVBIpO4/ECsNpJpWanJH9GkxH/z1EbfjUf8wNJV46C78CwH7KeeMBRGdH5hk6uYTc8oIsxxNjXCMR/4XPe0HpL1Cy3l6B0PuAPWDIBiOHcGuG4ZGCOcerLNs7EikBpQ2g7edQXelrEEEvu655U/50wAPtaiK11ETTi6HUMt6u/JXh6bHP8Ar4CW/cNSwvCGIOwIDAQAB"
+$Root = Join-Path $env:LOCALAPPDATA "DimomulePersonal"
 $NativeDir = Join-Path $Root "NativeHost"
 $ChromeDir = Join-Path $Root "Chrome"
 $RegPath = "HKCU:\Software\Google\Chrome\NativeMessagingHosts\$HostName"
@@ -11,7 +11,7 @@ function Ok([string]$s) { Write-Host "[OK] $s" -ForegroundColor Green }
 function Err([string]$s) { $script:errors++; Write-Host "[ERRORE] $s" -ForegroundColor Red }
 function Info([string]$s) { Write-Host "[INFO] $s" -ForegroundColor Yellow }
 
-Write-Host "=== DIMOMULE 1.0 - VERIFICA ===" -ForegroundColor Cyan
+Write-Host "=== DIMOMULE PERSONAL - VERIFICA ===" -ForegroundColor Cyan
 try {
   $handler=(Get-ItemProperty "Registry::HKEY_CLASSES_ROOT\ed2k\shell\open\command")."(default)"
   if ([string]::IsNullOrWhiteSpace($handler)) { Err "Associazione ed2k:// vuota" } else { Ok "ED2K: $handler" }
@@ -40,7 +40,7 @@ $chromeManifestPath = Join-Path $ChromeDir "manifest.json"
 if (Test-Path -LiteralPath $chromeManifestPath -PathType Leaf) {
     try {
         $cm = Get-Content -Raw -LiteralPath $chromeManifestPath | ConvertFrom-Json
-        if ($cm.key -eq $ExpectedKey -and $cm.version -eq "1.0.0" -and $cm.name -eq "Dimomule 1.0") {
+        if ($cm.key -eq $ExpectedKey -and $cm.version -eq "1.0.0" -and $cm.name -eq "Dimomule Personal") {
             Ok "Manifest Chrome: identita e versione corrette"
         } else { Err "Manifest Chrome non corrisponde alla Dimomule attesa" }
         if ($cm.action.default_popup -eq "popup.html" -and (Test-Path -LiteralPath (Join-Path $ChromeDir "popup.html"))) { Ok "Popup informazioni presente" } else { Err "Popup informazioni mancante" }
