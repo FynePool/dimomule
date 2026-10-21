@@ -33,7 +33,7 @@ The setup is in Italian.
 ## First install with the ZIP package
 
 1. Fully extract the ZIP (or use the cloned folder).
-2. Run `INSTALLA_DIMOMULE.cmd`.
+2. Run `install.cmd`.
 3. Load the extension in Chrome as described below.
 
 Chrome must load the stable copy in LocalAppData, not the temporary folder extracted from the ZIP.
@@ -51,7 +51,7 @@ Chrome does not let any program install an extension that does not come from the
 
 Later builds keep the visible name **Dimomule Personal**, the same extension ID and the same stable folder. Builds are numbered internally as `r001-p1`, `r001-p2` and so on (`REVISION.txt`).
 
-To update with the setup, run the new `DimomulePersonal-Setup-rXXX.exe`: it offers the sites chosen last time. With the ZIP package, download the repository again (or `git pull`) and run `INSTALLA_DIMOMULE.cmd` again. **You do not need to load the unpacked extension again.** If needed, open `chrome://extensions` and click **Reload** on the Dimomule Personal card.
+To update with the setup, run the new `DimomulePersonal-Setup-rXXX.exe`: it offers the sites chosen last time. With the ZIP package, download the repository again (or `git pull`) and run `install.cmd` again. **You do not need to load the unpacked extension again.** If needed, open `chrome://extensions` and click **Reload** on the Dimomule Personal card.
 
 ## Enabled sites
 
@@ -76,7 +76,7 @@ The only file to edit is `Chrome/manifest.json`.
    ```
 
    `*://` covers HTTP and HTTPS; `*.newdomain.tld` covers the domain itself and all its subdomains. The two lists must stay identical.
-2. Run `INSTALLA_DIMOMULE.cmd` again; it copies the updated manifest to the stable folder.
+2. Run `install.cmd` again; it copies the updated manifest to the stable folder.
 3. Open `chrome://extensions` and click **Reload** on the Dimomule Personal card.
 
 ## How it works
@@ -114,13 +114,13 @@ On Windows, GitHub Actions (`.github/workflows/release.yml`) also runs:
 
 ## Diagnostics
 
-Run `VERIFICA_DIMOMULE.cmd` to check the local setup. Clicking the Dimomule Personal icon in Chrome also opens the info panel, with a link to the full guide (in Italian).
+Run `verify.cmd` to check the local setup. Clicking the Dimomule Personal icon in Chrome also opens the info panel, with a link to the full guide (in Italian).
 
 ## Requirements
 
 - Windows with Google Chrome;
 - eMule or a compatible mod already registered for the `ed2k://` protocol;
-- Native Host installed with the setup or with `INSTALLA_DIMOMULE.cmd`.
+- Native Host installed with the setup or with `install.cmd`.
 
 ## Stable identity
 
@@ -161,7 +161,7 @@ Per un'installazione senza finestre: `DimomulePersonal-Setup-rXXX.exe /VERYSILEN
 ## Prima installazione con il pacchetto ZIP
 
 1. Estrai completamente lo ZIP (o usa la cartella clonata).
-2. Esegui `INSTALLA_DIMOMULE.cmd`.
+2. Esegui `install.cmd`.
 3. Carica l'estensione in Chrome come spiegato sotto.
 
 Chrome deve essere caricato dalla copia stabile in LocalAppData, non dalla cartella temporanea estratta dallo ZIP.
@@ -179,7 +179,7 @@ Chrome non permette a nessun programma di installare da solo un'estensione che n
 
 Le build successive mantengono il nome visibile **Dimomule Personal**, lo stesso ID dell'estensione e la stessa cartella stabile. Le build sono identificate internamente come `r001-p1`, `r001-p2` e cosi via (file `REVISION.txt`).
 
-Per aggiornare con il setup, esegui il nuovo `DimomulePersonal-Setup-rXXX.exe`: ripropone i siti scelti la volta precedente. Con il pacchetto ZIP, scarica di nuovo il repository (o esegui `git pull`) ed esegui di nuovo `INSTALLA_DIMOMULE.cmd`. **Non devi ricaricare l'estensione non pacchettizzata da zero.** Se necessario, vai in `chrome://extensions` e premi **Ricarica** sulla scheda Dimomule Personal.
+Per aggiornare con il setup, esegui il nuovo `DimomulePersonal-Setup-rXXX.exe`: ripropone i siti scelti la volta precedente. Con il pacchetto ZIP, scarica di nuovo il repository (o esegui `git pull`) ed esegui di nuovo `install.cmd`. **Non devi ricaricare l'estensione non pacchettizzata da zero.** Se necessario, vai in `chrome://extensions` e premi **Ricarica** sulla scheda Dimomule Personal.
 
 ## Siti abilitati
 
@@ -204,7 +204,7 @@ L'unico punto da modificare e `Chrome/manifest.json`.
    ```
 
    `*://` copre HTTP e HTTPS; `*.nuovodominio.tld` copre il dominio stesso e tutti i sottodomini. Le due liste devono restare identiche.
-2. Esegui di nuovo `INSTALLA_DIMOMULE.cmd`, che copia il manifest aggiornato nella cartella stabile.
+2. Esegui di nuovo `install.cmd`, che copia il manifest aggiornato nella cartella stabile.
 3. Apri `chrome://extensions` e premi **Ricarica** sulla scheda Dimomule Personal.
 
 ## Come funziona
@@ -242,13 +242,13 @@ Su Windows, GitHub Actions (`.github/workflows/release.yml`) esegue anche:
 
 ## Diagnostica
 
-Esegui `VERIFICA_DIMOMULE.cmd` per controllare la configurazione locale. Cliccando sull'icona di Dimomule Personal in Chrome si apre inoltre il pannello informativo con accesso alla guida completa.
+Esegui `verify.cmd` per controllare la configurazione locale. Cliccando sull'icona di Dimomule Personal in Chrome si apre inoltre il pannello informativo con accesso alla guida completa.
 
 ## Requisiti
 
 - Windows con Google Chrome;
 - eMule o mod compatibile gia configurata per il protocollo `ed2k://`;
-- Native Host installato con il setup oppure con `INSTALLA_DIMOMULE.cmd`.
+- Native Host installato con il setup oppure con `install.cmd`.
 
 ## Identita stabile
 

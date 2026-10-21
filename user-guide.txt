@@ -14,7 +14,7 @@ Per disinstallare: Impostazioni -> App -> Dimomule Personal.
 INSTALLAZIONE CON IL PACCHETTO ZIP
 1. Scarica questo repository (Code -> Download ZIP oppure git clone).
 2. Estrai completamente lo ZIP in una cartella normale.
-3. Esegui INSTALLA_DIMOMULE.cmd.
+3. Esegui install.cmd.
 4. L'installer copia i componenti nella posizione stabile %LOCALAPPDATA%\DimomulePersonal e registra il Native Host. Non apre finestre aggiuntive.
 5. Apri chrome://extensions.
 6. Attiva "Modalita sviluppatore".
@@ -27,7 +27,7 @@ Chrome usa direttamente la cartella scelta per un'estensione non pacchettizzata.
 
 AGGIORNAMENTI FUTURI
 Dimomule rimane sempre "Dimomule Personal" e mantiene lo stesso ID Chrome. Le revisioni interne vengono indicate come r001-p1, r001-p2 ecc.
-Per aggiornare: esegui il nuovo setup (ripropone i siti scelti in precedenza), oppure scarica di nuovo il repository ed esegui INSTALLA_DIMOMULE.cmd. Chrome continua a puntare alla stessa cartella stabile. NON devi premere di nuovo "Carica estensione non pacchettizzata". Se Chrome non recepisce subito i nuovi file, apri chrome://extensions e premi "Ricarica" sulla scheda Dimomule Personal.
+Per aggiornare: esegui il nuovo setup (ripropone i siti scelti in precedenza), oppure scarica di nuovo il repository ed esegui install.cmd. Chrome continua a puntare alla stessa cartella stabile. NON devi premere di nuovo "Carica estensione non pacchettizzata". Se Chrome non recepisce subito i nuovi file, apri chrome://extensions e premi "Ricarica" sulla scheda Dimomule Personal.
 
 SICUREZZA DELL'AGGIORNAMENTO
 L'installer prepara la nuova build in staging, esegue un backup dei soli file Dimomule conosciuti e ripristina la situazione precedente se l'aggiornamento non viene completato. Non elimina file estranei eventualmente presenti nelle cartelle Dimomule.
@@ -43,17 +43,17 @@ COSA FA
 SITI ABILITATI
 Con il setup i siti si scelgono durante l'installazione: per cambiarli riesegui il setup e premi "Ricarica" in chrome://extensions.
 Con il pacchetto ZIP l'estensione funziona solo su ddunlimited.net, emulelinks.it e ildragonero2.info (e loro sottodomini, HTTP e HTTPS).
-Per aggiungere un dominio al pacchetto ZIP: modifica le due liste "matches" in Chrome\manifest.json aggiungendo "*://*.nuovodominio.tld/*", riesegui INSTALLA_DIMOMULE.cmd e premi "Ricarica" in chrome://extensions.
+Per aggiungere un dominio al pacchetto ZIP: modifica le due liste "matches" in Chrome\manifest.json aggiungendo "*://*.nuovodominio.tld/*", riesegui install.cmd e premi "Ricarica" in chrome://extensions.
 
 PAGINA INFO
 Clicca l'icona Dimomule Personal nella barra di Chrome. Si apre il popup informativo. Da li puoi aprire la guida completa interna.
 
 VERIFICA
-Esegui VERIFICA_DIMOMULE.cmd per controllare associazione ed2k://, Native Host, registro, identita dell'estensione e popup.
+Esegui verify.cmd per controllare associazione ed2k://, Native Host, registro, identita dell'estensione e popup.
 
 DISINSTALLAZIONE
 1. Rimuovi Dimomule Personal da chrome://extensions.
-2. Se hai usato il setup: Impostazioni -> App -> Dimomule Personal. Se hai usato il pacchetto ZIP: esegui DISINSTALLA_DIMOMULE.cmd.
+2. Se hai usato il setup: Impostazioni -> App -> Dimomule Personal. Se hai usato il pacchetto ZIP: esegui uninstall.cmd.
 La disinstallazione rimuove solo la registrazione Native Messaging e i file appartenenti a Dimomule. Non modifica eMule, l'associazione ed2k://, file di Windows o il file hosts.
 
 DATI TECNICI BLOCCATI

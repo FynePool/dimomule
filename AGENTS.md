@@ -30,7 +30,7 @@ L'installer accetta solo valori nel formato `rNNN` oppure `rNNN-pN`.
 Due strade, entrambe da questo repository:
 
 - **Setup:** `DimomulePersonal-Setup-rXXX.exe`, allegato alle release di questo repository insieme a `SHA256SUMS.txt`.
-- **Pacchetto ZIP:** il repository stesso (Code -> Download ZIP oppure `git clone`), con `INSTALLA_DIMOMULE.cmd`.
+- **Pacchetto ZIP:** il repository stesso (Code -> Download ZIP oppure `git clone`), con `install.cmd`.
 
 Nel repository non si committano file eseguibili (`build/` e `dist/` sono in `.gitignore`). Il setup viene compilato solo da GitHub Actions (`.github/workflows/release.yml`):
 
@@ -45,7 +45,7 @@ Il workflow gira su ogni pull request e su `main`; il risultato e scaricabile co
 
 ## Pubblicare una release
 
-1. Aggiorna `REVISION.txt` (per esempio `r001-p3`) e la riga `Build:` di `LEGGIMI.txt`, poi fai merge su `main`.
+1. Aggiorna `REVISION.txt` (per esempio `r001-p3`) e la riga `Build:` di `user-guide.txt`, poi fai merge su `main`.
 2. Crea e invia un tag con lo stesso nome:
 
    ```
@@ -73,5 +73,5 @@ L'installer blocca l'installazione se rileva un cambio accidentale della chiave 
 - `node --check` su tutti i file `.js` in `Chrome/`;
 - `node tests/validate.test.mjs`;
 - se si modifica la validazione dei link, aggiornare lo stesso pattern sia in `Chrome/service-worker.js` sia in `_support/NativeHost.cs` (il test verifica che siano identici);
-- aggiornare `REVISION.txt` e la riga `Build:` di `LEGGIMI.txt`;
+- aggiornare `REVISION.txt` e la riga `Build:` di `user-guide.txt`;
 - se si modifica il formato di `Chrome/manifest.json` vicino alle liste `"matches"`, verificare che il setup le trovi ancora (il test del setup in GitHub Actions lo controlla).
