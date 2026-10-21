@@ -2,18 +2,18 @@ $ErrorActionPreference = "Stop"
 
 $Version = "1.0"
 $ManifestVersion = "1.0.0"
-$HostName = "it.dimomule.ed2k_opener"
-$ExtensionId = "mihhpbnljinclnfipcadonlnnnnngkbk"
-$ExpectedKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1s1a+q5K8glrOX69Rpno08DtE1vQA//JxlLl/KugucxbsTKsBGqvTLzkaWKFesUyKPjv9pusVkBJ2qiJCGFbfFeaT3XYTiwzCYCOdQYdVZY9wRrkkZeQfsuMAlI9Y2UfOsn1Lf5iMTWB83NzNnlIveb2fRb/4EpXITYTTe5LH6e23JhEjagzBJkNie3ZwcqDOBr3dNXx5SBsYSJjc+gdmLo7LbvcGviQhG7rGTL1so8XKE6KzLSVW4dIey9VSS3l37RD4fUUXIz4VX1QSM2kBZdjefyycFL16/wVA8c/+HqqrtTEDGpEXMLqCyl4kLd9qnsesY9yONB5jHNe0ssJOwIDAQAB"
+$HostName = "it.dimomule_personal.ed2k_opener"
+$ExtensionId = "jipokengmllmldjhfjceeemnnnjeicli"
+$ExpectedKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw+scjkhdTQxg/IQfBYQ9Y2l0YafYTHPJOaSE2VPC6sxUDyPMwYVjka/WED17i8l10TC8zYcSfLKTgGVmGCPAYaDoitoPOvgFXV6hvn+1oOHMJwxYjz/rqxW9croor9dgj5HxkT6gGOZQbJtRqZ3hnVBIpO4/ECsNpJpWanJH9GkxH/z1EbfjUf8wNJV46C78CwH7KeeMBRGdH5hk6uYTc8oIsxxNjXCMR/4XPe0HpL1Cy3l6B0PuAPWDIBiOHcGuG4ZGCOcerLNs7EikBpQ2g7edQXelrEEEvu655U/50wAPtaiK11ETTi6HUMt6u/JXh6bHP8Ar4CW/cNSwvCGIOwIDAQAB"
 
 $PackageRoot = Split-Path -Parent $PSScriptRoot
 $SourceCs = Join-Path $PSScriptRoot "NativeHost.cs"
 $SourceChrome = Join-Path $PackageRoot "Chrome"
 $RevisionFile = Join-Path $PackageRoot "REVISION.txt"
 $Revision = if (Test-Path -LiteralPath $RevisionFile) { (Get-Content -LiteralPath $RevisionFile -TotalCount 1).Trim() } else { "r000" }
-if ($Revision -notmatch '^r\d{3,}$') { throw "REVISION.txt non valido: $Revision" }
+if ($Revision -notmatch '^r\d{3,}(-p\d+)?$') { throw "REVISION.txt non valido: $Revision" }
 
-$Root = Join-Path $env:LOCALAPPDATA "Dimomule"
+$Root = Join-Path $env:LOCALAPPDATA "DimomulePersonal"
 $InstallDir = Join-Path $Root "NativeHost"
 $ChromeInstallDir = Join-Path $Root "Chrome"
 $Exe = Join-Path $InstallDir "DimomuleNativeHost.exe"
@@ -37,7 +37,7 @@ function Get-RelativeChromeFiles {
 
 Write-Host ""
 Write-Host "=======================================" -ForegroundColor Cyan
-Write-Host "          DIMOMULE 1.0" -ForegroundColor Cyan
+Write-Host "          DIMOMULE PERSONAL" -ForegroundColor Cyan
 Write-Host "          build $Revision" -ForegroundColor DarkCyan
 Write-Host "=======================================" -ForegroundColor Cyan
 Write-Host ""
@@ -59,7 +59,7 @@ if (!(Test-Path -LiteralPath $SourceCs -PathType Leaf)) { throw "NativeHost.cs n
 # Controlli che impediscono di cambiare accidentalmente l'identita dell'estensione.
 $sourceManifestPath = Join-Path $SourceChrome "manifest.json"
 $sourceManifest = Get-Content -Raw -LiteralPath $sourceManifestPath | ConvertFrom-Json
-if ($sourceManifest.name -ne "Dimomule 1.0") { throw "Nome estensione inatteso nel manifest." }
+if ($sourceManifest.name -ne "Dimomule Personal") { throw "Nome estensione inatteso nel manifest." }
 if ($sourceManifest.version -ne $ManifestVersion) { throw "Versione manifest inattesa: $($sourceManifest.version)" }
 if ($sourceManifest.key -ne $ExpectedKey) { throw "CHIAVE ESTENSIONE MODIFICATA: installazione bloccata per non cambiare ID Chrome." }
 if ($sourceManifest.action.default_popup -ne "popup.html") { throw "Popup informativo mancante nel manifest." }
@@ -142,7 +142,7 @@ try {
     $finalExe = Join-Path $InstallDir "DimomuleNativeHost.exe"
     $nativeHostManifestData = @{
       name = $HostName
-      description = "Dimomule 1.0 Native Messaging Host"
+      description = "Dimomule Personal Native Messaging Host"
       path = $finalExe
       type = "stdio"
       allowed_origins = @("chrome-extension://$ExtensionId/")
@@ -165,7 +165,7 @@ try {
         if (Test-Path -LiteralPath $f -PathType Leaf) { Remove-Item -LiteralPath $f -Force }
     }
 
-    $versionText = "Dimomule 1.0`r`nBuild: $Revision`r`nExtension ID: $ExtensionId`r`nChrome: $ChromeInstallDir`r`nNativeHost: $InstallDir`r`n"
+    $versionText = "Dimomule Personal`r`nBuild: $Revision`r`nExtension ID: $ExtensionId`r`nChrome: $ChromeInstallDir`r`nNativeHost: $InstallDir`r`n"
     [System.IO.File]::WriteAllText($VersionPath, $versionText, (New-Object System.Text.UTF8Encoding($false)))
     [System.IO.File]::WriteAllText($RevisionPath, ($Revision + "`r`n"), (New-Object System.Text.UTF8Encoding($false)))
 
@@ -235,5 +235,5 @@ try {
     Write-Host "[INFO] Percorso Chrome: $ChromeInstallDir" -ForegroundColor Yellow
 }
 Write-Host ""
-Write-Host "INSTALLAZIONE/AGGIORNAMENTO DIMOMULE 1.0 COMPLETATO." -ForegroundColor Green
+Write-Host "INSTALLAZIONE/AGGIORNAMENTO DIMOMULE PERSONAL COMPLETATO." -ForegroundColor Green
 Write-Host "Nessuna finestra aggiuntiva e stata aperta." -ForegroundColor Green

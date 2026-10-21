@@ -1,5 +1,6 @@
 (() => {
-  const MARKER = "DIMOMULE_1_0_ADDALL";
+  const MARKER = "DIMOMULE_PERSONAL_ADDALL";
+  const MAX_LINKS = 500;
   const pendingAddAll = new Map();
 
   const isEd2k = value =>
@@ -68,14 +69,29 @@
 
   const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-  async function openBatch(urls) {
-    const clean = [...new Set(urls.filter(isEd2k).map(x => x.trim()))];
+  async function openBatch(urls, total) {
+    let clean = [...new Set(urls.filter(isEd2k).map(x => x.trim()))];
     if (!clean.length) {
       toast("Dimomule: nessun link eD2K trovato", true);
       return;
     }
 
-    toast(`Dimomule: invio ${clean.length} link a eMule...`);
+    const found = Math.max(total, clean.length);
+    const over = found > MAX_LINKS;
+    clean = clean.slice(0, MAX_LINKS);
+
+    const question = over ?
+      `La pagina contiene ${found} link eD2K, oltre il limite di ${MAX_LINKS}.\nInviare i primi ${clean.length} link a eMule?` :
+      `Inviare ${clean.length} link a eMule?`;
+    if (!window.confirm(question)) {
+      toast("Dimomule: invio annullato, nessun link inviato a eMule");
+      return;
+    }
+
+    if (over)
+      toast(`Dimomule: limite di ${MAX_LINKS} link superato (${found} trovati), invio dei primi ${clean.length}...`, true);
+    else
+      toast(`Dimomule: invio ${clean.length} link a eMule...`);
     let ok = 0;
     for (const url of clean) {
       if (await openOne(url)) ok++;
@@ -131,7 +147,8 @@
     if (!pendingAddAll.delete(data.requestId)) return;
 
     const urls = Array.isArray(data.urls) ? data.urls : [];
-    openBatch(urls);
+    const total = Number.isInteger(data.total) ? data.total : urls.length;
+    openBatch(urls, total);
   });
 
   document.addEventListener("click", intercept, true);

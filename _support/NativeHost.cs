@@ -4,16 +4,27 @@ using System.IO;
 using System.Text;
 using System.Web.Script.Serialization;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 public class DimomuleNativeHost
 {
     const int MaxMessageBytes = 1024 * 1024;
-    const string AllowedOrigin = "chrome-extension://mihhpbnljinclnfipcadonlnnnnngkbk/";
+    const string AllowedOrigin = "chrome-extension://jipokengmllmldjhfjceeemnnnjeicli/";
+    // Formato eD2K ammesso: file, server, serverlist. Stesso pattern di Chrome/service-worker.js.
+    const string Ed2kPattern = @"^[Ee][Dd]2[Kk]://\|(?:file\|[^|\x00-\x1f\x22\x7f]+\|[1-9][0-9]{0,15}\|[0-9A-Fa-f]{32}\|(?:(?:h=[A-Za-z2-7]{32}|p=[0-9A-Fa-f]{32}(?::[0-9A-Fa-f]{32})*|s=https?://[^|\x00-\x20\x22\x7f]+)\|)*/(?:\|sources(?:,[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*:[0-9]{1,5})+\|/)?|server\|[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*\|[0-9]{1,5}\|/|serverlist\|https?://[^|\x00-\x20\x22\x7f]+\|/)$";
+    static readonly Regex Ed2kRegex = new Regex(Ed2kPattern);
     static readonly string LogPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dimomule.log");
 
     static void Log(string s)
     {
         try { File.AppendAllText(LogPath, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + " " + s + Environment.NewLine, Encoding.UTF8); } catch { }
+    }
+
+    static bool ValidEd2k(string s)
+    {
+        if (String.IsNullOrEmpty(s) || s.Length > 32768) return false;
+        foreach (char c in s) { if (c < 0x20 || c == 0x7f || c == '"') return false; }
+        return Ed2kRegex.IsMatch(s);
     }
 
     static byte[] ReadExact(Stream input, int count)
@@ -49,7 +60,7 @@ public class DimomuleNativeHost
             var js = new JavaScriptSerializer();
             var data = js.DeserializeObject(Encoding.UTF8.GetString(payload)) as Dictionary<string,object>;
             string url = (data != null && data.ContainsKey("url") && data["url"] != null) ? data["url"].ToString().Trim() : null;
-            if (String.IsNullOrEmpty(url) || !url.StartsWith("ed2k://", StringComparison.OrdinalIgnoreCase) || url.Length > 32768 || url.IndexOf('\r') >= 0 || url.IndexOf('\n') >= 0 || url.IndexOf('\0') >= 0)
+            if (!ValidEd2k(url))
             { Log("REJECT invalid url"); Send(new {ok=false,error="invalid_ed2k_url"}); return 6; }
 
             Process.Start(new ProcessStartInfo { FileName=url, UseShellExecute=true });

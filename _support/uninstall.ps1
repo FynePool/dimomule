@@ -1,12 +1,12 @@
 $ErrorActionPreference = "Stop"
-$HostName = "it.dimomule.ed2k_opener"
+$HostName = "it.dimomule_personal.ed2k_opener"
 $RegPath = "HKCU:\Software\Google\Chrome\NativeMessagingHosts\$HostName"
-$Root = Join-Path $env:LOCALAPPDATA "Dimomule"
+$Root = Join-Path $env:LOCALAPPDATA "DimomulePersonal"
 $StatePath = Join-Path $Root "install-state.json"
 
 Write-Host ""
 Write-Host "=======================================" -ForegroundColor Cyan
-Write-Host "       DIMOMULE 1.0 - DISINSTALLA" -ForegroundColor Cyan
+Write-Host "       DIMOMULE PERSONAL - DISINSTALLA" -ForegroundColor Cyan
 Write-Host "=======================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "REGOLA: nessun file di Windows viene cancellato o modificato." -ForegroundColor Yellow
@@ -61,7 +61,7 @@ if (Test-Path -LiteralPath $Root -PathType Container) {
     if ($remaining.Count -eq 0) {
         Remove-Item -LiteralPath $Root -Force
     } else {
-        Write-Host "[ATTENZIONE] %LOCALAPPDATA%\Dimomule contiene elementi non appartenenti all'elenco Dimomule: lasciati intatti." -ForegroundColor Yellow
+        Write-Host "[ATTENZIONE] %LOCALAPPDATA%\DimomulePersonal contiene elementi non appartenenti all'elenco Dimomule: lasciati intatti." -ForegroundColor Yellow
     }
 }
 
