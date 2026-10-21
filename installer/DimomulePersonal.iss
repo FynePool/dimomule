@@ -221,6 +221,7 @@ end;
 
 // In modalita silenziosa un /DOMINI non valido va rifiutato qui: se NextButtonClick
 // restituisse False il wizard nascosto resterebbe fermo sulla pagina senza mai uscire.
+// Usare sempre SuppressibleMsgBox: MsgBox ignora /SUPPRESSMSGBOXES e bloccherebbe il setup.
 function InitializeSetup(): Boolean;
 var
   Handler, Param, Bad: String;
@@ -228,8 +229,8 @@ var
 begin
   Result := RegQueryStringValue(HKCR, 'ed2k\shell\open\command', '', Handler) and (Trim(Handler) <> '');
   if not Result then begin
-    MsgBox('Windows non ha un gestore ed2k:// registrato.' + #13#10 +
-      'Apri eMule e registra prima i link ED2K, poi rilancia il setup.', mbCriticalError, MB_OK);
+    SuppressibleMsgBox('Windows non ha un gestore ed2k:// registrato.' + #13#10 +
+      'Apri eMule e registra prima i link ED2K, poi rilancia il setup.', mbCriticalError, MB_OK, IDOK);
     Exit;
   end;
 
@@ -242,7 +243,7 @@ begin
       List.Free;
     end;
     if not Result then
-      MsgBox('Dominio non valido in /DOMINI: ' + Bad, mbCriticalError, MB_OK);
+      SuppressibleMsgBox('Dominio non valido in /DOMINI: ' + Bad, mbCriticalError, MB_OK, IDOK);
   end;
 end;
 
@@ -253,12 +254,12 @@ begin
   Result := True;
   if (CurPageID = DomainsPage.ID) and SelectedRadio.Checked then begin
     if not ParseDomains(DomainsMemo.Text, DomainList, Bad) then begin
-      MsgBox('Dominio non valido: ' + Bad + #13#10#13#10 +
+      SuppressibleMsgBox('Dominio non valido: ' + Bad + #13#10#13#10 +
         'Scrivi un dominio per riga, per esempio sito.it. I domini con caratteri accentati vanno scritti in forma xn--.',
-        mbError, MB_OK);
+        mbError, MB_OK, IDOK);
       Result := False;
     end else if DomainList.Count = 0 then begin
-      MsgBox('Inserisci almeno un dominio oppure scegli "Tutti i domini".', mbError, MB_OK);
+      SuppressibleMsgBox('Inserisci almeno un dominio oppure scegli "Tutti i domini".', mbError, MB_OK, IDOK);
       Result := False;
     end;
   end;
