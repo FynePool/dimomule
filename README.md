@@ -6,9 +6,26 @@ E una versione personale e piu restrittiva derivata da Dimomule 1.0 build r001 d
 
 ## Download
 
-Scarica questo repository (pulsante **Code -> Download ZIP** oppure `git clone`). Il pacchetto non contiene file eseguibili precompilati: il Native Host viene compilato in locale dall'installer a partire da `_support/NativeHost.cs`.
+Ci sono due modi per installare. Usane uno solo.
 
-## Prima installazione
+- **Setup (consigliato):** scarica `DimomulePersonal-Setup-rXXX.exe` dalla sezione **Releases** di questo repository. Il file viene compilato da GitHub Actions a partire da questo codice; accanto c'e `SHA256SUMS.txt` con l'hash per controllarlo.
+- **Pacchetto ZIP:** scarica il repository (pulsante **Code -> Download ZIP** oppure `git clone`). In questo caso il Native Host viene compilato in locale dall'installer a partire da `_support/NativeHost.cs`.
+
+Nel repository non ci sono file eseguibili.
+
+## Installazione con il setup
+
+1. Esegui `DimomulePersonal-Setup-rXXX.exe`. Il file non e firmato digitalmente, quindi Windows puo mostrare "Windows ha protetto il PC": scegli **Ulteriori informazioni -> Esegui comunque**.
+2. Nella pagina **Siti abilitati** scegli:
+   - **Tutti i domini**: l'estensione funziona su qualsiasi sito HTTP e HTTPS;
+   - **Solo i domini selezionati**: scrivi un dominio per riga (per esempio `sito.it`). Sono inclusi i sottodomini; se incolli un indirizzo completo come `https://www.sito.it/forum/` viene tenuto solo `sito.it`.
+3. Completa l'installazione. L'ultima pagina spiega i passaggi da fare in Chrome (sotto) e il percorso della cartella viene copiato negli appunti.
+
+Il setup installa per il solo utente corrente, senza permessi di amministratore, e si disinstalla da **Impostazioni -> App** (oppure con `unins000.exe` nella cartella di installazione).
+
+Per un'installazione senza finestre: `DimomulePersonal-Setup-rXXX.exe /VERYSILENT /DOMINI=sito1.it,sito2.net` (oppure `/DOMINI=tutti`).
+
+## Prima installazione con il pacchetto ZIP
 
 1. Estrai completamente lo ZIP (o usa la cartella clonata).
 2. Esegui `INSTALLA_DIMOMULE.cmd`.
@@ -18,15 +35,26 @@ Scarica questo repository (pulsante **Code -> Download ZIP** oppure `git clone`)
 
 Il percorso viene copiato negli appunti dall'installer. Chrome deve essere caricato dalla copia stabile in LocalAppData, non dalla cartella temporanea estratta dallo ZIP.
 
+## Caricare l'estensione in Chrome
+
+Chrome non permette a nessun programma di installare da solo un'estensione che non viene dal Chrome Web Store, quindi questo passaggio va fatto a mano una sola volta, con entrambi i metodi:
+
+1. apri `chrome://extensions`;
+2. attiva **Modalita sviluppatore** (in alto a destra);
+3. premi **Carica estensione non pacchettizzata**;
+4. seleziona `%LOCALAPPDATA%\DimomulePersonal\Chrome` (il percorso e negli appunti).
+
 ## Aggiornamenti
 
 Le build successive mantengono il nome visibile **Dimomule Personal**, lo stesso ID dell'estensione e la stessa cartella stabile. Le build sono identificate internamente come `r001-p1`, `r001-p2` e cosi via (file `REVISION.txt`).
 
-Per aggiornare, scarica di nuovo il repository (o esegui `git pull`) ed esegui di nuovo `INSTALLA_DIMOMULE.cmd`. **Non devi ricaricare l'estensione non pacchettizzata da zero.** Se necessario, vai in `chrome://extensions` e premi **Ricarica** sulla scheda Dimomule Personal.
+Per aggiornare con il setup, esegui il nuovo `DimomulePersonal-Setup-rXXX.exe`: ripropone i siti scelti la volta precedente. Con il pacchetto ZIP, scarica di nuovo il repository (o esegui `git pull`) ed esegui di nuovo `INSTALLA_DIMOMULE.cmd`. **Non devi ricaricare l'estensione non pacchettizzata da zero.** Se necessario, vai in `chrome://extensions` e premi **Ricarica** sulla scheda Dimomule Personal.
 
 ## Siti abilitati
 
-L'estensione e attiva soltanto su questi domini e sui loro sottodomini, in HTTP e HTTPS:
+Con il setup i siti si scelgono durante l'installazione; per cambiarli basta rieseguire il setup e poi premere **Ricarica** in `chrome://extensions`.
+
+Con il pacchetto ZIP l'estensione e attiva soltanto su questi domini e sui loro sottodomini, in HTTP e HTTPS:
 
 - `ddunlimited.net`
 - `emulelinks.it`
@@ -34,7 +62,7 @@ L'estensione e attiva soltanto su questi domini e sui loro sottodomini, in HTTP 
 
 Sugli altri siti non viene caricato alcuno script e i link `ed2k://` non vengono intercettati. L'estensione non chiede `host_permissions`.
 
-### Aggiungere un dominio
+### Aggiungere un dominio (pacchetto ZIP)
 
 L'unico punto da modificare e `Chrome/manifest.json`.
 
@@ -75,6 +103,11 @@ L'installer non modifica il file Windows `hosts`, non cambia l'associazione `ed2
 ## Test
 
 `node tests/validate.test.mjs` verifica la validazione dei link su un elenco di link validi e malformati e controlla che il pattern di `NativeHost.cs` sia identico a quello del service worker. Non serve installare pacchetti.
+
+Su Windows, GitHub Actions (`.github/workflows/release.yml`) esegue anche:
+
+- `tests/nativehost.test.ps1`: gli stessi casi passati al Native Host compilato;
+- `tests/installer.test.ps1`: installazione silenziosa con varie scelte di domini, controllo di manifest e registro, disinstallazione.
 
 ## Diagnostica
 

@@ -1,0 +1,91 @@
+# Compila e verifica il setup su Windows. Su un tag rNNN-pN pubblica anche la release.
+name: Setup
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    tags: ["r*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Test validazione (Node)
+        shell: pwsh
+        run: |
+          Get-ChildItem Chrome\*.js, tests\*.mjs | ForEach-Object { node --check $_.FullName; if ($LASTEXITCODE) { exit 1 } }
+          node tests/validate.test.mjs
+          if ($LASTEXITCODE) { exit 1 }
+
+      - name: Revisione
+        id: rev
+        shell: pwsh
+        run: |
+          $rev = (Get-Content REVISION.txt -TotalCount 1).Trim()
+          if ($rev -notmatch '^r\d{3,}(-p\d+)?$') { throw "REVISION.txt non valido: $rev" }
+          if ($env:GITHUB_REF_TYPE -eq 'tag' -and $env:GITHUB_REF_NAME -ne $rev) { throw "Il tag $env:GITHUB_REF_NAME non corrisponde a REVISION.txt ($rev)" }
+          "revision=$rev" >> $env:GITHUB_OUTPUT
+
+      - name: Compila Native Host
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force build | Out-Null
+          $csc = Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319\csc.exe'
+          & $csc /nologo /target:exe /optimize+ /out:build\DimomuleNativeHost.exe /reference:System.Web.Extensions.dll _support\NativeHost.cs
+          if ($LASTEXITCODE) { exit 1 }
+
+      # Gestore ed2k:// fittizio, solo per i test: non apre nulla.
+      - name: Registra gestore ed2k di prova
+        shell: pwsh
+        run: |
+          $k = 'HKCU:\Software\Classes\ed2k'
+          New-Item -Path "$k\shell\open\command" -Force | Out-Null
+          Set-ItemProperty -Path $k -Name '(default)' -Value 'URL:ed2k Protocol'
+          Set-ItemProperty -Path $k -Name 'URL Protocol' -Value ''
+          Set-ItemProperty -Path "$k\shell\open\command" -Name '(default)' -Value ('"' + "$env:WINDIR\System32\cmd.exe" + '" /c exit 0')
+
+      - name: Test Native Host
+        shell: pwsh
+        run: ./tests/nativehost.test.ps1 -Exe build\DimomuleNativeHost.exe
+
+      - name: Inno Setup
+        shell: pwsh
+        run: |
+          $iscc = Join-Path ${env:ProgramFiles(x86)} 'Inno Setup 6\ISCC.exe'
+          if (!(Test-Path $iscc)) { choco install innosetup -y --no-progress; if ($LASTEXITCODE) { exit 1 } }
+          & $iscc /Qp "/DRevision=${{ steps.rev.outputs.revision }}" installer\DimomulePersonal.iss
+          if ($LASTEXITCODE) { exit 1 }
+
+      - name: Test setup e disinstallazione
+        shell: pwsh
+        run: ./tests/installer.test.ps1 -Setup (Get-ChildItem dist\*.exe).FullName
+
+      - name: SHA-256
+        shell: pwsh
+        run: |
+          Get-ChildItem dist\*.exe | Get-FileHash -Algorithm SHA256 |
+            ForEach-Object { "$($_.Hash.ToLower())  $(Split-Path -Leaf $_.Path)" } |
+            Set-Content -Encoding ascii dist\SHA256SUMS.txt
+          Get-Content dist\SHA256SUMS.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DimomulePersonal-Setup-${{ steps.rev.outputs.revision }}
+          path: dist/
+
+      - name: Pubblica release
+        if: github.ref_type == 'tag'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $files = (Get-ChildItem dist\*).FullName
+          gh release create $env:GITHUB_REF_NAME @files --title "Dimomule Personal $env:GITHUB_REF_NAME" --notes "Setup per Windows compilato da GitHub Actions dal commit $env:GITHUB_SHA. Controlla l'hash in SHA256SUMS.txt."
+          if ($LASTEXITCODE) { exit 1 }

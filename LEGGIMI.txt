@@ -1,11 +1,17 @@
 DIMOMULE PERSONAL — PACCHETTO COMPLETO
 ======================================
-Build: r001-p1
+Build: r001-p2
 
 Dimomule Personal ripristina in Google Chrome per Windows l'apertura dei link ed2k:// in eMule e supporta anche i vecchi link multipli javascript:addall...().
 E una versione personale e piu restrittiva derivata da Dimomule 1.0 build r001; ha un'identita propria e puo convivere con l'originale.
 
-PRIMA INSTALLAZIONE
+INSTALLAZIONE CON IL SETUP (CONSIGLIATA)
+1. Scarica DimomulePersonal-Setup-rXXX.exe dalla sezione Releases di GitHub ed eseguilo. Il file non e firmato: se Windows mostra "Windows ha protetto il PC" scegli "Ulteriori informazioni" e poi "Esegui comunque".
+2. Nella pagina "Siti abilitati" scegli "Tutti i domini" oppure "Solo i domini selezionati" e scrivi un dominio per riga (sono inclusi i sottodomini).
+3. Completa l'installazione e segui i passaggi indicati nell'ultima pagina per caricare l'estensione in Chrome (gli stessi dei punti 5-8 qui sotto).
+Per disinstallare: Impostazioni -> App -> Dimomule Personal.
+
+INSTALLAZIONE CON IL PACCHETTO ZIP
 1. Scarica questo repository (Code -> Download ZIP oppure git clone).
 2. Estrai completamente lo ZIP in una cartella normale.
 3. Esegui INSTALLA_DIMOMULE.cmd.
@@ -21,7 +27,7 @@ Chrome usa direttamente la cartella scelta per un'estensione non pacchettizzata.
 
 AGGIORNAMENTI FUTURI
 Dimomule rimane sempre "Dimomule Personal" e mantiene lo stesso ID Chrome. Le revisioni interne vengono indicate come r001-p1, r001-p2 ecc.
-Per aggiornare: scarica di nuovo il repository (o esegui git pull) ed esegui INSTALLA_DIMOMULE.cmd. Chrome continua a puntare alla stessa cartella stabile. NON devi premere di nuovo "Carica estensione non pacchettizzata". Se Chrome non recepisce subito i nuovi file, apri chrome://extensions e premi "Ricarica" sulla scheda Dimomule Personal.
+Per aggiornare: esegui il nuovo setup (ripropone i siti scelti in precedenza), oppure scarica di nuovo il repository ed esegui INSTALLA_DIMOMULE.cmd. Chrome continua a puntare alla stessa cartella stabile. NON devi premere di nuovo "Carica estensione non pacchettizzata". Se Chrome non recepisce subito i nuovi file, apri chrome://extensions e premi "Ricarica" sulla scheda Dimomule Personal.
 
 SICUREZZA DELL'AGGIORNAMENTO
 L'installer prepara la nuova build in staging, esegue un backup dei soli file Dimomule conosciuti e ripristina la situazione precedente se l'aggiornamento non viene completato. Non elimina file estranei eventualmente presenti nelle cartelle Dimomule.
@@ -35,8 +41,9 @@ COSA FA
 - non invia cronologia di navigazione a server esterni.
 
 SITI ABILITATI
-L'estensione funziona solo su ddunlimited.net, emulelinks.it e ildragonero2.info (e loro sottodomini, HTTP e HTTPS).
-Per aggiungere un dominio: modifica le due liste "matches" in Chrome\manifest.json aggiungendo "*://*.nuovodominio.tld/*", riesegui INSTALLA_DIMOMULE.cmd e premi "Ricarica" in chrome://extensions.
+Con il setup i siti si scelgono durante l'installazione: per cambiarli riesegui il setup e premi "Ricarica" in chrome://extensions.
+Con il pacchetto ZIP l'estensione funziona solo su ddunlimited.net, emulelinks.it e ildragonero2.info (e loro sottodomini, HTTP e HTTPS).
+Per aggiungere un dominio al pacchetto ZIP: modifica le due liste "matches" in Chrome\manifest.json aggiungendo "*://*.nuovodominio.tld/*", riesegui INSTALLA_DIMOMULE.cmd e premi "Ricarica" in chrome://extensions.
 
 PAGINA INFO
 Clicca l'icona Dimomule Personal nella barra di Chrome. Si apre il popup informativo. Da li puoi aprire la guida completa interna.
@@ -46,7 +53,7 @@ Esegui VERIFICA_DIMOMULE.cmd per controllare associazione ed2k://, Native Host, 
 
 DISINSTALLAZIONE
 1. Rimuovi Dimomule Personal da chrome://extensions.
-2. Esegui DISINSTALLA_DIMOMULE.cmd.
+2. Se hai usato il setup: Impostazioni -> App -> Dimomule Personal. Se hai usato il pacchetto ZIP: esegui DISINSTALLA_DIMOMULE.cmd.
 La disinstallazione rimuove solo la registrazione Native Messaging e i file appartenenti a Dimomule. Non modifica eMule, l'associazione ed2k://, file di Windows o il file hosts.
 
 DATI TECNICI BLOCCATI

@@ -107,6 +107,18 @@ const invalid = [
   [`ed2k://|file|${"a".repeat(33000)}|1000|${H}|/`, "oltre 32768 caratteri"],
 ];
 
+// --dump: stampa i casi in JSON (solo ASCII) per tests/nativehost.test.ps1.
+if (process.argv.includes("--dump")) {
+  const cases = [
+    ...valid.map(([url, label]) => ({ url, label, expected: true })),
+    ...invalid.map(([url, label]) => ({ url, label, expected: false })),
+  ];
+  const json = JSON.stringify(cases).replace(/[\u007f-￿]/g,
+    c => "\\u" + c.charCodeAt(0).toString(16).padStart(4, "0"));
+  process.stdout.write(json + "\n");
+  process.exit(0);
+}
+
 for (const [url, label] of valid) check(true, url, label);
 for (const [url, label] of invalid) check(false, url, label);
 
