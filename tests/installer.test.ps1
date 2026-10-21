@@ -16,7 +16,14 @@ function Check([bool]$Cond, [string]$Msg) {
 
 function Invoke-Setup([string[]]$Extra) {
     $argList = @("/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART") + $Extra
-    $p = Start-Process -FilePath (Resolve-Path -LiteralPath $Setup).Path -ArgumentList $argList -Wait -PassThru
+    $p = Start-Process -FilePath (Resolve-Path -LiteralPath $Setup).Path -ArgumentList $argList -PassThru
+    # Un setup silenzioso bloccato non deve appendere la CI: dopo 2 minuti lo chiude e fallisce.
+    if (-not $p.WaitForExit(120000)) {
+        Write-Host "[ERRORE] setup bloccato con $($Extra -join ' '), terminato" -ForegroundColor Red
+        Stop-Process -Id $p.Id -Force
+        Get-Process | Where-Object { $_.Path -like "$env:TEMP\is-*" } | Stop-Process -Force -ErrorAction SilentlyContinue
+        return -1
+    }
     return $p.ExitCode
 }
 
@@ -53,7 +60,7 @@ Test-Installed "scelta precedente ricordata" $all
 Check ((Invoke-Setup @("/DOMINI=https://www.emulelinks.it/forum/index.php,ddunlimited.net,EMULELINKS.it")) -eq 0) "installazione con URL completi"
 Test-Installed "normalizzazione" "*://*.emulelinks.it/* *://*.ddunlimited.net/*"
 
-Check ((Invoke-Setup @("/DOMINI=dominio_non_valido")) -ne 0) "dominio non valido rifiutato"
+Check ((Invoke-Setup @("/DOMINI=dominio_non_valido")) -eq 1) "dominio non valido rifiutato"
 Test-Installed "dopo rifiuto" "*://*.emulelinks.it/* *://*.ddunlimited.net/*"
 
 $uninstaller = Join-Path $App "unins000.exe"

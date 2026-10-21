@@ -61,16 +61,6 @@ var
   DomainsMemo: TNewMemo;
   DomainList: TStringList;
 
-function InitializeSetup(): Boolean;
-var
-  Handler: String;
-begin
-  Result := RegQueryStringValue(HKCR, 'ed2k\shell\open\command', '', Handler) and (Trim(Handler) <> '');
-  if not Result then
-    MsgBox('Windows non ha un gestore ed2k:// registrato.' + #13#10 +
-      'Apri eMule e registra prima i link ED2K, poi rilancia il setup.', mbCriticalError, MB_OK);
-end;
-
 procedure UpdateMemoState;
 begin
   DomainsMemo.Enabled := SelectedRadio.Checked;
@@ -226,6 +216,33 @@ begin
       end;
     end else
       Tok := Tok + C;
+  end;
+end;
+
+// In modalita silenziosa un /DOMINI non valido va rifiutato qui: se NextButtonClick
+// restituisse False il wizard nascosto resterebbe fermo sulla pagina senza mai uscire.
+function InitializeSetup(): Boolean;
+var
+  Handler, Param, Bad: String;
+  List: TStringList;
+begin
+  Result := RegQueryStringValue(HKCR, 'ed2k\shell\open\command', '', Handler) and (Trim(Handler) <> '');
+  if not Result then begin
+    MsgBox('Windows non ha un gestore ed2k:// registrato.' + #13#10 +
+      'Apri eMule e registra prima i link ED2K, poi rilancia il setup.', mbCriticalError, MB_OK);
+    Exit;
+  end;
+
+  Param := ExpandConstant('{param:DOMINI|}');
+  if WizardSilent and (Param <> '') and (Lowercase(Param) <> 'tutti') then begin
+    List := TStringList.Create;
+    try
+      Result := ParseDomains(Param, List, Bad) and (List.Count > 0);
+    finally
+      List.Free;
+    end;
+    if not Result then
+      MsgBox('Dominio non valido in /DOMINI: ' + Bad, mbCriticalError, MB_OK);
   end;
 end;
 
